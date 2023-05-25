@@ -21,7 +21,7 @@ d_m = test1.decrypt(e_m)
 print(f"Decrypted message: {d_m}")
 
 
-For Paillier.py, written below is an example of the object to be passed along with sample arguments
+For Paillier.py, written below is an example of the object to be passed along with sample arguments. The value of k should be compatible with the length of the message
 
 test = Paillier(k=32)
 n, g = test.get_public_key()
