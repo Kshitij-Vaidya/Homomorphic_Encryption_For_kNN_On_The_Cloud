@@ -2,3 +2,5 @@
 
 This repository contains files relevant to the Summer of Code project: Homomorphic Encrpytion for k-NN on the Cloud.
 It contains weekly updates of assignments and the correspoding codes
+
+The relevant files have been pushed to the master branch with the latest modifications made 
