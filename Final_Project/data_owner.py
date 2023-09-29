@@ -77,7 +77,7 @@ def GetDatabase():
     Database = []
     F = open("Database.txt", "r")
     for line in F:
-        row = [int(n) for n in line.strip().split()]
+        row = [int(n) for n in line.strip().split(',')]
         Database.append(row)
 
     # We need to ensure that our database has no negative values for encryption purposes
