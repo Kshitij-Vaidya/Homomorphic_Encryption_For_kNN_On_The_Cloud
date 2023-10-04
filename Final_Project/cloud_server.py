@@ -1,6 +1,8 @@
 import numpy as np
 import socket
 import json
+import math
+import random
 
 PORT_CS = 65432
 PORT_QU = 65433
@@ -10,8 +12,10 @@ ADDR_QU = (SERVER, PORT_QU)
 FORMAT = 'utf-8'
 encrypted_database = []
 m = 10000
+d = 50
 
 # Receive the Data in Packets
+# This is done for handlig larger sets of data
 def Receive_Data(socket, size):
     Recv_Data = b''
 
@@ -22,13 +26,12 @@ def Receive_Data(socket, size):
         Recv_Data += Packet
     return Recv_Data
 
-
+# This receives the encrypted database from the Data Owner
 def Get_Database():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind(ADDR_CS)
     server.listen()
-
     print(f"[CLOUD SERVER] Cloud Server is listening on {ADDR_CS}")
 
     # Interation with Data Owner
@@ -39,9 +42,7 @@ def Get_Database():
         connected = True
         while connected:
             Data_Encrypted = json.loads(Receive_Data(conn, 4096).deocde())
-
             print("[CLOUD SERVER] Encrypted Database received")
-
             connected = False
 
         server.close()
@@ -52,26 +53,15 @@ def Get_Database():
 
 
 
-
-
-
-def Euclidean_Distance(vector1, vector2):
-    squared_diff = np.square(vector1 - vector2)  # Square the differences between corresponding elements
-    sum_squared_diff = np.sum(squared_diff)  # Sum the squared differences
-    euclidean_dist = np.sqrt(sum_squared_diff)  # Take the square root of the sum
-    return euclidean_dist
-
-
 # Computes the index set for the k-nearest neighbours of the query point
-def k_NN_Computation(vector, k):
+def k_NN_Computation(database, query, k):
     distances = []
-    for i, v_data in encrypted_database.items():
-        encrypted_database[i] = [float(element) for element in v_data]
-        distances.append(Euclidean_Distance(vector, v_data))
+    for i in range(len(database):
+        distance = np.dot(np.array(database[i], np.array(query)))
+        distances.append(distance)
     
     sorted_indices = np.argsort(distances)
     index_set = sorted_indices[:k]
-
     return index_set
 
 
@@ -95,7 +85,7 @@ def Query_Resolution(Encrypted_Data, k):
             query = json.loads(conn.recv(32768).decode(FORMAT))  # Format: {"Query" : enc_query, "K" : k}
 
             print("[SERVER] Processing Query ...")
-            index_set = k_NN_Computation(query["Query"], query["K"])
+            index_set = k_NN_Computation(Encrypted_Data, query["Query"], query["K"])
             result = {"Index_Set" : index_set}
 
             print("[SERVER] Sending data to Query User")
