@@ -19,16 +19,6 @@ epsilon = random.randint(1, 10)
 d = 50 # No of dimensions in each data point
 m = 10000 # No of data points
 n = c + epsilon + d + 1
-R_q = np.random.randint(-10, 10, c)
-
-
-
-# Finds the GCD of two numbers a and b
-def GCD(a,b):
-    while b != 0:
-        a, b = b, a % b
-    return a
-
 
 
 # Function generates the secret key of the scheme
@@ -126,6 +116,7 @@ def DatapointEnc(Database, i, Key, v):
 
     P_Enc = np.array(P_Enc).reshape(1,-1)
     M = np.array(M)
+    M = M.reshape(n,n)
     M_inv = np.linalg.inv(M)
 
     P_Enc = np.matmul(P_Enc, M_inv)
