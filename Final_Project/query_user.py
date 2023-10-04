@@ -4,6 +4,7 @@ import numpy as np
 from sympy import randprime
 import random
 import sage
+import math
 
 PORT_CS = 65432
 PORT_DO = 65433
@@ -12,7 +13,7 @@ ADDR_CS = (SERVER, PORT_CS)
 ADDR_DO = (SERVER, PORT_DO)
 FORMAT = 'utf-8'
 d = 50
-
+m = 10000
 
 
 class Paillier:
@@ -136,7 +137,7 @@ for i in range(d):
         Q[i] = abs(Q[i]) + 10000
 
 # Generate Public Key for Paillier Encryption
-paillier = Paillier(k = 16)
+paillier = Paillier(k = 32)
 
 N, G = paillier.get_public_key()
 
